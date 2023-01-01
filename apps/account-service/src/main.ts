@@ -1,5 +1,6 @@
 //TODO: move packages into package using and remove relative paths
-const start = require('../../packages/backend-core/run-service');
+import start from '../../../packages/backend-core/run-service';
+
 console.log(start);
 const defaultConfig = {
     environment: {
