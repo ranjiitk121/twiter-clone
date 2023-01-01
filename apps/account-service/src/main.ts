@@ -1,7 +1,5 @@
-//TODO: move packages into package using and remove relative paths
-import start from '../../../packages/backend-core/run-service';
+import start from '@my/backend-core';
 
-console.log(start);
 const defaultConfig = {
     environment: {
         isDev: true,
