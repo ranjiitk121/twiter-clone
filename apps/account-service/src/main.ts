@@ -1,4 +1,4 @@
-import start from '@my/backend-core';
+import start from '@my/backend-core/src';
 
 const defaultConfig = {
     environment: {
