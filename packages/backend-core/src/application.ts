@@ -1,14 +1,23 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-console.log(bodyParser);
-export class Application  {
-    private _expressServer: express.Application;
+
+export default class Application  {
+    private _expressServer: any;
+
+    init() {
+        this._expressServer = express.default();
+        this._setupMiddleware(this._expressServer);
+        this._setupErrorMiddleware(this._expressServer);
+        return this._expressServer;
+    }
 
     run(port: number) {
+        console.log('we are here', this._expressServer);
         this._expressServer.listen(port, () => {
             console.log(`Server is listening on prt ${port}`);
         });
     }
+
     private _setupMiddleware(app: express.Application) {
         app.use(bodyParser.json('application/json'));
         app.use(bodyParser.urlencoded({extended: true}));

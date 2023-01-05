@@ -1,4 +1,4 @@
-import start from '@my/backend-core/src';
+import { start } from '@my/backend-core';
 
 const defaultConfig = {
     environment: {
@@ -19,3 +19,4 @@ const defaultConfig = {
 };
 
 start(defaultConfig.port);
+console.log('good boy');

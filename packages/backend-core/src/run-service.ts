@@ -1,13 +1,12 @@
-import express from 'express';
+import Application from './application';
 
-export default async function start(port) {
+export function start(port) {
     try {
-        const app = express();
-        app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
-        })
+        
+        const application = new Application();
+        application.init();
+        application.run(port);
     } catch (e) {
         process.exit(0);
     }
 }
-
