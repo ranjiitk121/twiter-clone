@@ -10,3 +10,4 @@ export default async function start(port) {
         process.exit(0);
     }
 }
+
