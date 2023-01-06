@@ -2,7 +2,7 @@
   "name": "@my/backend-core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc --build"
   },
