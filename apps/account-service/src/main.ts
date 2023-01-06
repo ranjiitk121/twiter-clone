@@ -1,4 +1,5 @@
-import {start} from '@my/backend-core';
+import {start, TypeormService} from '@my/backend-core';
+import { User } from './modules/user/entities/user.entity';
 
 const defaultConfig = {
   environment: {
@@ -18,4 +19,8 @@ const defaultConfig = {
   },
 };
 
-start(defaultConfig.port);
+async function init() {
+  start(defaultConfig.port);
+  await new TypeormService().connect([User]);
+}
+init();

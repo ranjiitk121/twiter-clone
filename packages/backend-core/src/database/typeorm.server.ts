@@ -18,22 +18,30 @@ export class TypeormService {
             ...this._getDBConfig(),
             entities
         };
-    
+        console.log(dbConfig);
+        
         //TODO: remove as DataSourceOptions and resolve actual type issue
         TypeormService._AppDataSource = new DataSource(dbConfig as DataSourceOptions);
+        TypeormService._AppDataSource.initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization", err)
+    })
     }
 
     _getDBConfig () {
         dotenv.config();
         return {
-            type: process.env.DB_TYPE as DatabaseType,
-            host: process.env.DB_HOST || 'localhost',
-            port: +process.env.DB_PORT || 5436,
-            username: process.env.DB_USERNAME || 'root',
-            password: process.env.DB_PASSWORD || 'admin',
+            type: "mysql",
+            host: "localhost",
+            port: 3306,
+            username: "root",
+            password: "root",
             database: process.env.DB_NAME || 'twitter-clone',
             synchronize: true,
-            logging: Boolean(process.env.DB_LOGGING) || false,
+            logging:  true,
             subscribers: [],
             migrations: [],
         }
