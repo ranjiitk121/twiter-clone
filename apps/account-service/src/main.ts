@@ -1,22 +1,21 @@
-import { start } from '@my/backend-core';
+import {start} from '@my/backend-core';
 
 const defaultConfig = {
-    environment: {
-        isDev: true,
-        isProd: false,
+  environment: {
+    isDev: true,
+    isProd: false,
+  },
+  port: 4903,
+  db: {
+    database: 'learning_twitter-clone',
+    pg: {
+      password: 'root',
+      port: 5432,
+      host: 'localhost',
+      user: 'postgres',
     },
-    port: 4903,
-    db: {
-        database: 'learning_twitter-clone',
-        pg: {
-            password: 'root',
-            port: 5432,
-            host: 'localhost',
-            user: 'postgres',
-        },
-        runMigrations: false,
-    },
+    runMigrations: false,
+  },
 };
 
 start(defaultConfig.port);
-console.log('good boy');
