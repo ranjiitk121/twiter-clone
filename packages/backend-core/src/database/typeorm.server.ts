@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { DataSource, DataSourceOptions, DatabaseType, Repository, ObjectType } from "typeorm";
 import * as dotenv from 'dotenv';
 
@@ -32,7 +31,7 @@ export class TypeormService {
             password: "root",
             database: process.env.DB_NAME || 'twitter-clone',
             synchronize: true,
-            logging:  true,
+            logging:  process.env.DB_LOGGING || false,
             subscribers: [],
             migrations: [],
         }

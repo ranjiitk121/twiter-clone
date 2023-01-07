@@ -1,17 +1,28 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import { Bootstrap } from './bootstrap';
+import { InversifyExpressServer } from 'inversify-express-utils';
 
 export default class Application  {
     private _expressServer: any;
 
-    init() {
-        this._expressServer = express.default();
-        this._setupMiddleware(this._expressServer);
-        this._setupErrorMiddleware(this._expressServer);
+   async init(services, repositories) {
+        Bootstrap.init(services, repositories);
+        this._expressServer = await this._setupServer();
         return this._expressServer;
     }
 
+    private async  _setupServer() {
+        const server = new InversifyExpressServer(Bootstrap.container);
+        this._expressServer = server.setConfig((theApp) => {
+            this._setupMiddleware(theApp);
+        }).setErrorConfig((theApp) => {
+            this._setupErrorMiddleware(theApp);
+        }).build();
+        return this._expressServer;
+    }
     run(port: number) {
+        console.log(this._expressServer.listen, 'the listen method');
         this._expressServer.listen(port, () => {
             console.log(`Server is listening on prt ${port}`);
         });

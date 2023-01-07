@@ -1,22 +1,46 @@
-import { TypeormService } from '@my/backend-core';
-import { User } from '../entities/user.entity';
-const userRepository = TypeormService.getRepository();
+import { injectable } from 'inversify';
 
-async function my() {
-    const user = new User()
-user.firstName = "Timber"
-user.lastName = "Saw"
-user.age = 25
-await userRepository.save(user)
+export interface IUser {
+  email: string;
+  name: string;
+}
 
-const allUsers = await userRepository.find()
-const firstUser = await userRepository.findOneBy({
-    id: 1,
-}) // find by id
-const timber = await userRepository.findOneBy({
-    firstName: "Timber",
-    lastName: "Saw",
-}) // find by firstName and lastName
+@injectable()
+export class UserService {
 
-await userRepository.remove(timber)
+  private userStorage: IUser[] = [{
+    email: 'lorem@ipsum.com',
+    name: 'Lorem'
+  }, {
+    email: 'doloe@sit.com',
+    name: 'Dolor'
+  }];
+
+  public getUsers(): IUser[] {
+    return this.userStorage;
+  }
+
+  public getUser(id: string): IUser {
+    return this.userStorage.find(user => user.name === id);
+  }
+
+  public newUser(user: IUser): IUser {
+    this.userStorage.push(user);
+    return user;
+  }
+
+  public updateUser(id: string, user: IUser): IUser {
+    this.userStorage.forEach((entry, index) => {
+      if (entry.name === id) {
+        this.userStorage[index] = user;
+      }
+    });
+
+    return user;
+  }
+
+  public deleteUser(id: string): string {
+    this.userStorage = this.userStorage.filter(user => user.name !== id);
+    return id;
+  }
 }
