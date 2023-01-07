@@ -12,7 +12,6 @@ export default class Application  {
     }
 
     run(port: number) {
-        console.log('we are here', this._expressServer);
         this._expressServer.listen(port, () => {
             console.log(`Server is listening on prt ${port}`);
         });
