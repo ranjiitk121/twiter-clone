@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/main.js",
+    "start": "rm -rf ./dist && tsc --build && node dist/main.js",
     "lint": "eslint src --ext .ts,.js --color",
     "lint:fix": "eslint src --ext .ts,.js --fix"
   },
