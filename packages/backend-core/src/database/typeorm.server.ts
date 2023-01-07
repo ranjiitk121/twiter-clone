@@ -3,32 +3,23 @@ import { DataSource, DataSourceOptions, DatabaseType, Repository, ObjectType } f
 import * as dotenv from 'dotenv';
 
 export class TypeormService {
-    private static _instance: TypeormService | null = null;
-    private static _AppDataSource: DataSource;
-
-    static getInstance() {
-        if(!TypeormService._instance) {
-            TypeormService._instance = new TypeormService();
-        }
-        return TypeormService._instance;
-    }
+    private  _AppDataSource: DataSource;
 
     async connect(entities: any[]) {
         const dbConfig = {
             ...this._getDBConfig(),
             entities
         };
-        console.log(dbConfig);
-        
+     
         //TODO: remove as DataSourceOptions and resolve actual type issue
-        TypeormService._AppDataSource = new DataSource(dbConfig as DataSourceOptions);
-        TypeormService._AppDataSource.initialize()
-    .then(() => {
-        console.log("Data Source has been initialized!")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization", err)
-    })
+        this._AppDataSource = new DataSource(dbConfig as DataSourceOptions);
+        try {
+            await this._AppDataSource.initialize();
+            console.log("Data Source has been initialized!")
+        } catch(err) {
+            console.log(err);
+            throw new Error('Failed to connect to db');
+        }
     }
 
     _getDBConfig () {
@@ -48,6 +39,6 @@ export class TypeormService {
     }
 
     getRepository<T extends Repository<any>>(repository: ObjectType<T>): Repository<T> {
-        return TypeormService._AppDataSource.manager.getRepository(repository);
+        return this._AppDataSource.manager.getRepository(repository);
     }
 }
